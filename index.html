@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Bulb Status</title>
+    <style>
+
+        body {
+                background-color: #f0f0f2;
+                margin: 0;
+                padding: 0;
+                font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+                
+            }
+            .div1 {
+                width: 600px;
+                margin: 5em auto;
+                padding: 2em;
+                background-color: #fdfdff;
+                border-radius: 0.5em;
+                box-shadow: 2px 3px 7px 2px rgba(0,0,0,0.02);
+            }
+            a:link, a:visited {
+                color: #38488f;
+                text-decoration: none;
+            }
+            @media (max-width: 700px) {
+                .div1 {
+                    margin: 0 auto;
+                    width: auto;
+                }
+            }
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+        }
+        .bulb {
+            margin: 20px;
+        }
+        .button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+        .button-off {
+            background-color: #FCCA07; /* Red */
+        }
+    </style>
+</head>
+<body >
+    <div class="div1">
+
+    
+        <!-- <img src="nibm.png" style="margin-top: 10px;" width="350px" alt="">
+        <h1 style="margin-top: 20px; color:blue;">Course Work - 02</h1>
+        <h2 style="margin-top: 20px; color:blue;">IOT Application Development</h2> -->
+
+        <div class="container">
+            <div class="bulb">
+                <img id="bulb1" src="assets/bulb_off.png" alt="Bulb 1">
+                <br>
+                <button class="button button-on" onclick="turnOnB('bulb1')">Turn On</button>
+                <button class="button button-off" style="color: black;" onclick="turnOff('bulb1')">Turn Off</button>
+            </div>
+            <div class="bulb">
+                <img id="bulb2" src="assets/bulb_off.png" alt="Bulb 2">
+                <br>
+                <button class="button button-on" onclick="turnOnR('bulb2')">Turn On</button>
+                <button class="button button-off" style="color: black;" onclick="turnOff('bulb2')">Turn Off</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        function turnOnB(bulbId) {
+            var bulb = document.getElementById(bulbId);
+            bulb.src = "assets/bulb_on_red.png";
+            updateBulbStatus(bulbId, 'on');
+        }
+
+        function turnOnR(bulbId) {
+            var bulb = document.getElementById(bulbId);
+            bulb.src = "assets/bulb_on_blue.png";
+            updateBulbStatus(bulbId, 'on');
+        }
+
+        function turnOff(bulbId) {
+            var bulb = document.getElementById(bulbId);
+            bulb.src = "assets/bulb_off.png";
+            updateBulbStatus(bulbId, 'off');
+        }
+
+        function updateBulbStatus(bulbId, status) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "update_bulb_status.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Handle the response if needed
+                    var response = JSON.parse(xhr.responseText);
+                    console.log(response);
+                }
+            };
+            xhr.send("bulbId=" + encodeURIComponent(bulbId) + "&status=" + encodeURIComponent(status));
+        }
+
+    </script>
+</body>
+</html>
